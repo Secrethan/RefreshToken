@@ -27,6 +27,12 @@ public class UserController {
         return new Response<>("true","회원 가입 성공",userService.Join(dto));
     }
 
+    @GetMapping("/user/{id}")
+    public Response<?> findUser(@PathVariable("id") Integer id) {
+        System.out.println(id);
+        return new Response<>("true","조회 성공",userService.findUser(id));
+    }
+
     @PostMapping("/user/test")
     public String test1() {
         return "ROLE_USER / ADMIN 접근 가능";

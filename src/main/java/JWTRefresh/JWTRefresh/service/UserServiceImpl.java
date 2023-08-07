@@ -26,4 +26,11 @@ public class UserServiceImpl implements UserService{
         User user = User.toEntity(dto);
         return userRepository.save(user);
     }
+
+    @Override
+    public User findUser(Integer id) {
+        return userRepository.findById(id).orElseThrow(() -> {
+            return new IllegalArgumentException("User Id를 찾을 수 없습니다.");
+        });
+    }
 }
