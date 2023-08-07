@@ -1,0 +1,50 @@
+spring:
+  profiles:
+    active: local #local,dev,real
+
+  datasource: #DB 접속
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/jwt
+    username: c##group001
+    password: 1234
+    hikari: #커넥션풀
+      connection-timeout: 30000 #클라이언트가 pool에 connection을 요청하는데 기다리는 최대시간을 설정 30초
+      maximum-pool-size: 10 #최대 커넥션 개수 설정
+      max-lifetime: 1800000 #커넥션 풀에서 살아있을 수 있는 커넥션의 최대 수명시간 1,800초(30분)
+
+  devtools:
+    livereload:
+      enabled: true
+    remote:
+      restart:
+        enabled: true
+
+  #타임리프
+  thymeleaf:
+    prefix: classpath:templates/
+    suffix: .html
+    cache: false #수정시 바로 반영
+    check-template-location: true
+
+  #JPA
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true # SQL문 출력
+
+logging:
+  level:
+    # hibernate 가 남기는 모든 로그가 debug모드로 설정
+    # jpa hibernate가 생성하는 sql이 로거를 통해서 찍히도록 하는 설정
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql: trace # 실제 들어가는 파라미터값 찍어주는 설정
+
+
+server:
+  port: 8002
+  servlet:
+    context-path: /
+    encoding:
+      enabled: true # http 인코딩 지원를 활성화할지 여부
+      charset: UTF-8
+      force: true
