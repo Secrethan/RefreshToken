@@ -5,6 +5,7 @@ import JWTRefresh.JWTRefresh.domain.UserDTO;
 import JWTRefresh.JWTRefresh.response.Response;
 import JWTRefresh.JWTRefresh.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
-
+    @ApiOperation(value = "회원 가입", notes = "회원가입 한다.")
     @PostMapping("/join")
     public Response<?> join(@RequestBody String userData) {
         ObjectMapper om = new ObjectMapper();
@@ -26,7 +27,7 @@ public class UserController {
         }
         return new Response<>("true","회원 가입 성공",userService.Join(dto));
     }
-
+    @ApiOperation(value = "회원 조회", notes = "특정 회원을 조회한다.")
     @GetMapping("/user/{id}")
     public Response<?> findUser(@PathVariable("id") Integer id) {
         System.out.println(id);
