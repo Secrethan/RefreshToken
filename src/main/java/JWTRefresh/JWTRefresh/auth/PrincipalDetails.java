@@ -15,6 +15,10 @@ public class PrincipalDetails implements UserDetails {
     public PrincipalDetails(UserDTO userDTO) {
         this.userDTO = userDTO;
     }
+    public PrincipalDetails(String username, String role) {
+        this.userDTO.setUsername(username);
+        this.userDTO.setRole(role);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -41,6 +45,9 @@ public class PrincipalDetails implements UserDetails {
     }
     public UserDTO getUser(){
         return userDTO;
+    }
+    public String getRole(){
+        return userDTO.getRole();
     }
 
     @Override

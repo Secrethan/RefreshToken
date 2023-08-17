@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

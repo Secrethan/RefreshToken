@@ -16,7 +16,6 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -32,4 +31,6 @@ public class PrincipalDetailsService implements UserDetailsService {
         }
         return null;
     }
+
+
 }

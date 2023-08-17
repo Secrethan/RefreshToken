@@ -1,15 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8">
     <title>Restful 하게 로그인하기 </title>
 </head>
 <body>
-<form action = "/" method="post">
-  <input type = "text" name = "username" placeholder="이름"/><br>
-  <input type = "password" name = "password" placeholder="password"/>
-  <input type = "submit" value = "로그인"/>
-</form>
+
+<input type="text" id ="username"> <br>
+<input type="password" id = "password"> <br>
+<input type="hidden" id = "role" value="ROLE_USER"> <br>
+<button type ="button" onclick="login()">로그인 </button>
+<button type ="button" onclick="sendRequestWithToken()">토큰을 테스트해보자 </button>
+<script th:inline="javascript" type="text/javascript">
+       let accessToken = '';
+       let refreshToken ='';
+
+function login() {
+  const username = $('#username').val();
+  const password = $('#password').val();
+
+  const userData = {
+    username: username,
+    password: password
+  };
+
+  axios.post("/auth/login", userData)
+    .then((response) => {
+      // 토큰 값을 저장
+      accessToken = response.headers['authorization'];
+      refreshToken = response.headers['refresh'];
+      console.log(accessToken);
+      console.log(refreshToken);
+    })
+    .catch((error) => {
+      console.log('error');
+    });
+}
+  </script>
 
 <a href="/joinForm"> Restful 하게 회원가입 하기 </a>
 
