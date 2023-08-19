@@ -40,11 +40,12 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             String accessToken = jwtTokenProvider.resolveAccessToken(request);
             if(StringUtils.hasText(accessToken) && doNotLogout(accessToken) && jwtTokenProvider.validateToken(accessToken, response)) {
                 setAuthenticationToContext(accessToken);
+                System.out.println("success !");
             }
         } catch (RuntimeException e) {
             e.printStackTrace();
         }
-
+          filterChain.doFilter(request, response);
     }
     private boolean doNotLogout(String accessToken) {
         String isLogout = redisService.getValues(accessToken);

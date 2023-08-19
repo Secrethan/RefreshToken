@@ -116,6 +116,7 @@ public class JwtTokenProvider {
         }
         String authority = claims.get("role").toString();
 
+
         PrincipalDetails principalDetails = new PrincipalDetails(claims.getSubject(), authority);
         System.out.println("getRoles 권한 체크 ={} " + principalDetails.getAuthorities().toString());
 

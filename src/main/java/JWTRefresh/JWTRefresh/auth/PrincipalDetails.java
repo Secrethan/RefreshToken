@@ -1,7 +1,9 @@
 package JWTRefresh.JWTRefresh.auth;
 
+import JWTRefresh.JWTRefresh.domain.User;
 import JWTRefresh.JWTRefresh.domain.UserDTO;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,16 +11,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Data
+@NoArgsConstructor
 public class PrincipalDetails implements UserDetails {
+
     private UserDTO userDTO;
 
     public PrincipalDetails(UserDTO userDTO) {
         this.userDTO = userDTO;
     }
     public PrincipalDetails(String username, String role) {
-        this.userDTO.setUsername(username);
+        this.userDTO = new UserDTO();
         this.userDTO.setRole(role);
+        this.userDTO.setUsername(username);
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -13,7 +13,7 @@
 <input type="password" id = "password"> <br>
 <input type="hidden" id = "role" value="ROLE_USER"> <br>
 <button type ="button" onclick="login()">로그인 </button>
-<button type ="button" onclick="sendRequestWithToken()">토큰을 테스트해보자 </button>
+
 <script th:inline="javascript" type="text/javascript">
        let accessToken = '';
        let refreshToken ='';
@@ -29,11 +29,14 @@ function login() {
 
   axios.post("/auth/login", userData)
     .then((response) => {
-      // 토큰 값을 저장
-      accessToken = response.headers['authorization'];
-      refreshToken = response.headers['refresh'];
-      console.log(accessToken);
-      console.log(refreshToken);
+        const accessToken = response.headers.authorization;
+
+       if(accessToken) {
+       window.location.href = 'user/userInfo';
+       }
+       else{
+        window.location.href='loginForm';
+       }
     })
     .catch((error) => {
       console.log('error');

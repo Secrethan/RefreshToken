@@ -7,12 +7,10 @@ import JWTRefresh.JWTRefresh.config.jwt.JwtTokenProvider;
 import JWTRefresh.JWTRefresh.domain.TokenDTO;
 import JWTRefresh.JWTRefresh.domain.User;
 import JWTRefresh.JWTRefresh.domain.UserDTO;
+import JWTRefresh.JWTRefresh.service.AuthService;
 import JWTRefresh.JWTRefresh.service.RedisService;
-import JWTRefresh.JWTRefresh.service.UserService;
-import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,7 +30,7 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
-    private final UserService userService;
+    private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
     private final AES128Config aes128Config;
 
@@ -91,7 +89,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         System.out.println("encryptedRefreshToken = " + encryptedRefreshToken);
 
         // principalDetails 객체의 정보로 DB에 접근해서 회원 정보 가져오기
-        User findUser = userService.findUser(principalDetails.getUser().getId());
+        User findUser = authService.findUser(principalDetails.getUser().getId());
 
         // 로그인 성공시 Refresh Token Redis 저장 ( key = 유저 이름  / value = Refresh Token )
         long refreshTokenExpirationMillis = jwtTokenProvider.getRefreshTokenExpirationMillis();

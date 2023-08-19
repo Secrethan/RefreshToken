@@ -4,9 +4,10 @@ package JWTRefresh.JWTRefresh.config;
 import JWTRefresh.JWTRefresh.config.jwt.Authentication.JWTAuthenticationFilter;
 import JWTRefresh.JWTRefresh.config.jwt.Authorization.JwtVerificationFilter;
 import JWTRefresh.JWTRefresh.config.jwt.JwtTokenProvider;
-import JWTRefresh.JWTRefresh.repository.UserRepository;
+
+import JWTRefresh.JWTRefresh.repository.AuthRepository;
+import JWTRefresh.JWTRefresh.service.AuthService;
 import JWTRefresh.JWTRefresh.service.RedisService;
-import JWTRefresh.JWTRefresh.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,9 +31,9 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
     @Autowired
-    private UserRepository userRepository;
+    private AuthRepository authRepository;
     @Autowired
-    private UserService userService;
+    private AuthService authService;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
@@ -46,7 +47,7 @@ public class SecurityConfig {
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
-            JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(authenticationManager,userService,jwtTokenProvider,aes128Config,redisService);
+            JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(authenticationManager,authService,jwtTokenProvider,aes128Config,redisService);
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenProvider,redisService);
             jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
             builder.addFilter(jwtAuthenticationFilter)

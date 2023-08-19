@@ -5,42 +5,15 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <meta charset="UTF-8">
-    <title>특정 인원 조회 시 서버에서 받은 Json 데이터 뿌려보자</title>
+    <title>로그아웃 테스트 </title>
 </head>
 <body>
+로그인 성공~
+<button type ="button" onclick="logout()">로그 아웃 </button>
+
 <script th:inline="javascript" type="text/javascript">
-  function userInfo(id) {
-    const apiUrl: '/user/${id}';
 
-    return axios.get(apiUrl)
-    .then((response) => {
-      // API 응답에서 데이터 부분만 추출하여 반환
-      return response.data;
-    })
-    .catch((error) => {
-      // 에러 처리
-      console.error('Error:', error);
-      return null; // 에러 발생 시 데이터는 null로 처리
-    });
-  }
 
-  async function displayUserData(id) {
-  try {
-    const userData = await userInfo(id);
-
-    if (userData) {
-      // JSON 데이터를 이용하여 필요한 처리 수행
-      console.log('User ID:', userData.id);
-      console.log('User Name:', userData.name);
-      console.log('User Role:', userData.role);
-      // ... 더 많은 정보 활용
-    } else {
-      console.log('User not found or an error occurred.');
-    }
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
 
 </script>
 </body>
