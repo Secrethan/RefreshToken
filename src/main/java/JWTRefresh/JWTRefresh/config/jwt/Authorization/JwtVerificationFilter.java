@@ -21,7 +21,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     private static final List<String> EXCLUDE_URL =
             List.of("/",
                     "/h2",
-                    "/members/signup",
+                    "/auth/join",
                     "/auth/login",
                     "/auth/reissue");
     private final JwtTokenProvider jwtTokenProvider;

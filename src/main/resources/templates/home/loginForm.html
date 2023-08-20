@@ -4,6 +4,7 @@
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/interceptor.js"></script>
     <meta charset="UTF-8">
     <title>Restful 하게 로그인하기 </title>
 </head>
@@ -30,6 +31,10 @@ function login() {
   axios.post("/auth/login", userData)
     .then((response) => {
         const accessToken = response.headers.authorization;
+        const refreshToken = response.headers.refresh;
+
+        localStorage.setItem("access",accessToken);
+        localStorage.setItem("refresh",refreshToken);
 
        if(accessToken) {
        window.location.href = 'user/userInfo';

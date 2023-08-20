@@ -47,7 +47,7 @@ public class SecurityConfig {
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
-            JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(authenticationManager,authService,jwtTokenProvider,aes128Config,redisService);
+            JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(authenticationManager,authService,jwtTokenProvider,redisService);
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenProvider,redisService);
             jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
             builder.addFilter(jwtAuthenticationFilter)

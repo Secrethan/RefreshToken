@@ -48,8 +48,6 @@ public class AuthServiceImpl implements AuthService{
             5. 존재한다면 redis 에서 삭제
             6. redis 에서 accessToken 을 블랙리스트 처리
          */
-
-
         this.verifiedRefreshToken(refreshToken);
 
         Claims claims = jwtTokenProvider.parseClaims(refreshToken);

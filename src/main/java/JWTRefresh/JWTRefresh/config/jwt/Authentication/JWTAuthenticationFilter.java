@@ -32,8 +32,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final AuthenticationManager authenticationManager;
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
-    private final AES128Config aes128Config;
-
     private final RedisService redisService;
 
 
@@ -65,7 +63,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         System.out.println("인증을 요구한 회원 이름 : " + principalDetails.getUser().getUsername());
 
-        // 인증이 완료된 정보를 담고 있는 authentication 객체를 session 저장소에 저장
         return authentication;
     }
 
@@ -81,12 +78,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         TokenDTO tokenDTO = jwtTokenProvider.generateTokenDTO(principalDetails);
         String accessToken = tokenDTO.getAccessToken();
         String refreshToken = tokenDTO.getRefreshToken();
-        String encryptedRefreshToken = aes128Config.encrypt(refreshToken);
+
         jwtTokenProvider.accessTokenSetHeader(accessToken, response);
         jwtTokenProvider.refreshTokenSetHeader(refreshToken, response);
-        System.out.println("access token : "+accessToken);
-        System.out.println("refresh token : "+refreshToken);
-        System.out.println("encryptedRefreshToken = " + encryptedRefreshToken);
 
         // principalDetails 객체의 정보로 DB에 접근해서 회원 정보 가져오기
         User findUser = authService.findUser(principalDetails.getUser().getId());
