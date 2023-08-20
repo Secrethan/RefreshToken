@@ -9,4 +9,6 @@ public interface AuthService {
     User findUser(Integer id);
 
     User join(UserDTO dto);
+
+    String reissueAccessToken(String refreshToken);
 }

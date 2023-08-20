@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/auth")
@@ -51,6 +52,21 @@ public class AuthController {
         authService.logout(refreshToken,accessToken);
 
         return new ResponseEntity("success", HttpStatus.OK);
+    }
+    @ApiOperation(value = "토큰 재발급", notes = "AccessToken 재발급")
+    @PatchMapping("/reissue")
+    public Response<?> reissue(HttpServletRequest request, HttpServletResponse response){
+        String refreshToken = jwtTokenProvider.resolveRefreshToken(request);
+        //String newAccessToken = authService.reissueAccessToken(refreshToken);
+
+        /*
+        1.컨트롤러에서 response 헤더에 토큰 값 넣어주는 방법
+        response.setHeader("Authorization", newAccessToken);
+        return new ResponseEntity("액세스 토큰 재발급 성공",HttpStatus.OK);
+         */
+
+        //2. 프론트에서 전달 받은 토큰 데이터를 자체적으로 저장하는 방법
+        return new Response<>("true","토큰 재발급 성공",authService.reissueAccessToken(refreshToken));
     }
 
 

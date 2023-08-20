@@ -1,6 +1,8 @@
 package JWTRefresh.JWTRefresh.service;
 
+import JWTRefresh.JWTRefresh.auth.PrincipalDetails;
 import JWTRefresh.JWTRefresh.config.jwt.JwtTokenProvider;
+import JWTRefresh.JWTRefresh.domain.TokenDTO;
 import JWTRefresh.JWTRefresh.domain.User;
 import JWTRefresh.JWTRefresh.domain.UserDTO;
 import JWTRefresh.JWTRefresh.repository.AuthRepository;
@@ -70,5 +72,26 @@ public class AuthServiceImpl implements AuthService{
         }
     }
 
+    @Override
+    public String reissueAccessToken(String refreshToken) {
+        this.verifiedRefreshToken(refreshToken);
+
+        Claims claims = jwtTokenProvider.parseClaims(refreshToken);
+        String username = claims.getSubject();
+        String redisRefreshToken = redisService.getValues(username);
+
+        if (redisService.checkExistsValue(redisRefreshToken) && redisRefreshToken.equals(redisRefreshToken)) {
+            User findUser = authRepository.findByUsername(username);
+            UserDTO dto = UserDTO.toDTO(findUser);
+            PrincipalDetails principalDetails = new PrincipalDetails(dto);
+
+            TokenDTO tokenDTO = jwtTokenProvider.generateTokenDTO(principalDetails);
+            String newAccessToken = tokenDTO.getAccessToken();
+            long refreshTokenExpirationMillis = jwtTokenProvider.getRefreshTokenExpirationMillis();
+
+            return newAccessToken;
+        }
+        else throw new NullPointerException("AccessToken_NOT_EXISTS");
+    }
 
 }
